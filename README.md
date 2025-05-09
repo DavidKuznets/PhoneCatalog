@@ -51,6 +51,8 @@ This project allows users to browse phones, tablets, and accessories, filter and
 
 / — Home page with banners and recommended products
 
+[Figma Design Source 🎨](https://www.figma.com/design/BUusqCIMAWALqfBahnyIiH/Phone-catalog--V2--Original-Dark?node-id=0-1&p=f&t=Tygdp1Tz4F99RfbW-0)
+
 🔗 Demo
 👉 [Live Demo on GitHub Pages](https://davidkuznets.github.io/PhoneCatalog/)
 
