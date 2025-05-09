@@ -13,9 +13,9 @@ import { Link } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 import pageNotFound from '../../../public/img/page-not-found.png';
-import heartLove from '../../../public/figmaLogo/HeartLove.svg';
-import activeSvg from '../../../public/figmaLogo/ActiveHeart.svg';
-import homeSvg from '../../../public/figmaLogo/Home.svg';
+import heartLove from '../../../public/figmaLogo/HeartLove.svg?url';
+import activeSvg from '../../../public/figmaLogo/ActiveHeart.svg?url';
+import homeSvg from '../../../public/figmaLogo/Home.svg?url';
 
 export const ProductDetailsPage = () => {
   const { productId } = useParams();

@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import './FavoritesPage.scss';
 import { useEffect, useState } from 'react';
 import { Accessories, Phone, Tablet } from '../../../Interface';
-import activeSvg from '../../../../public/figmaLogo/ActiveHeart.svg';
+import activeSvg from '../../../../public/figmaLogo/ActiveHeart.svg?url';
 import pageNotFound from '../../../../public/img/page-not-found.png';
 
 export const FavoritesPage = () => {

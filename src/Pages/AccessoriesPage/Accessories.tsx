@@ -6,9 +6,9 @@ import { SortForm } from '../../Functional/SortForm/SortForm';
 import { Product } from '../../Interface';
 import { Link } from 'react-router-dom';
 import { useCart } from '../../Functional/CartContext/CartContext';
-import homeSvg from '../../../public/figmaLogo/Home.svg';
-import heartLove from '../../../public/figmaLogo/HeartLove.svg';
-import activeSvg from '../../../public/figmaLogo/ActiveHeart.svg';
+import homeSvg from '../../../public/figmaLogo/Home.svg?url';
+import heartLove from '../../../public/figmaLogo/HeartLove.svg?url';
+import activeSvg from '../../../public/figmaLogo/ActiveHeart.svg?url';
 import pageNotFound from '../../../public/img/page-not-found.png';
 
 interface CartItem {
