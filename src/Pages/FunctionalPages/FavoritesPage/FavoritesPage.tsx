@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/indent */
 /* eslint-disable max-len */
-import { useCart } from '../../../Functional/CartContext/CartContext';
-import { Link } from 'react-router-dom';
-import './FavoritesPage.scss';
-import { useEffect, useState } from 'react';
-import { Accessories, Phone, Tablet } from '../../../Interface';
-import activeSvg from '../../../../public/figmaLogo/ActiveHeart.svg?url';
-import pageNotFound from '../../../../public/img/page-not-found.png';
+import { useCart } from "../../../Functional/CartContext/CartContext";
+import { Link } from "react-router-dom";
+import "./FavoritesPage.scss";
+import { useEffect, useState } from "react";
+import { Accessories, Phone, Tablet } from "../../../Interface";
+import activeSvg from "../../../../public/figmaLogo/ActiveHeart.svg?url";
+import pageNotFound from "../../../../public/img/page-not-found.png";
 
 export const FavoritesPage = () => {
   const { favorites, toggleFavorite, cart, addToCart, removeFromCart } =
@@ -21,15 +21,15 @@ export const FavoritesPage = () => {
   function isPhoneOrTablet(
     product: Phone | Tablet | Accessories,
   ): product is Phone | Tablet {
-    return 'capacity' in product;
+    return "capacity" in product;
   }
 
   useEffect(() => {
     const fetchProducts = async () => {
       const urls = [
-        'api/phones.json',
-        'api/tablets.json',
-        'api/accessories.json',
+        "api/phones.json",
+        "api/tablets.json",
+        "api/accessories.json",
       ];
       const allData: (Phone | Tablet | Accessories)[] = [];
 
@@ -50,7 +50,7 @@ export const FavoritesPage = () => {
         setError(null);
       } catch (err: unknown) {
         const errorMessage =
-          err instanceof Error ? err.message : 'Failed to load favorites.';
+          err instanceof Error ? err.message : "Failed to load favorites.";
 
         setError(errorMessage);
         setAllProducts([]);
@@ -62,12 +62,11 @@ export const FavoritesPage = () => {
     fetchProducts();
   }, []);
 
-  const favoriteProducts = allProducts.filter(product =>
-    favorites.includes(product.id),
-  );
+  const favoriteProducts = allProducts.filter((product) =>
+    favorites.includes(product.id));
 
   const handleImageError = (imageSrc: string) => {
-    setImageError(prev => ({ ...prev, [imageSrc]: true }));
+    setImageError((prev) => ({ ...prev, [imageSrc]: true }));
   };
 
   const handleCartToggle = (product: Phone | Tablet | Accessories) => {
@@ -83,7 +82,7 @@ export const FavoritesPage = () => {
       }),
     };
 
-    const isInCart = cart.some(item => item.id === product.id);
+    const isInCart = cart.some((item) => item.id === product.id);
 
     if (isInCart) {
       removeFromCart(product.id);
@@ -114,7 +113,7 @@ export const FavoritesPage = () => {
     return (
       <section className="favorites section">
         <Link to="/" className="favorites__back">
-          {'< Back'}
+          {"< Back"}
         </Link>
         <h1 className="favorites__title">Your Favorites</h1>
         <p className="favorites__empty">Your favorites list is empty.</p>
@@ -125,11 +124,11 @@ export const FavoritesPage = () => {
   return (
     <section className="favorites section">
       <Link to="/" className="favorites__back">
-        {'< Back'}
+        {"< Back"}
       </Link>
       <h1 className="favorites__title">Your Favorites</h1>
       <div className="favorites__items">
-        {favoriteProducts.map(product => (
+        {favoriteProducts.map((product) => (
           <div key={product.id} className="favorites__item">
             <Link to={`/products/${product.id}`}>
               <img
@@ -173,21 +172,21 @@ export const FavoritesPage = () => {
             <div className="favorites__item-actions">
               <button
                 className={`favorites__item-btn ${
-                  cart.some(item => item.id === product.id) ? 'added' : ''
+                  cart.some((item) => item.id === product.id) ? "added" : ""
                 }`}
-                onClick={e => {
+                onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
                   handleCartToggle(product);
                 }}
               >
-                {cart.some(item => item.id === product.id)
-                  ? 'Added'
-                  : 'Add to cart'}
+                {cart.some((item) => item.id === product.id)
+                  ? "Added"
+                  : "Add to cart"}
               </button>
               <button
                 className="favorites__item-btn favorites__item-btn--favorite favorite--active"
-                onClick={e => {
+                onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
                   toggleFavorite(product.id);

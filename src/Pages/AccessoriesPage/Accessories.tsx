@@ -1,15 +1,15 @@
 /* eslint-disable curly */
 /* eslint-disable max-len */
-import { useEffect, useState } from 'react';
-import './Accessories.scss';
-import { SortForm } from '../../Functional/SortForm/SortForm';
-import { Product } from '../../Interface';
-import { Link } from 'react-router-dom';
-import { useCart } from '../../Functional/CartContext/CartContext';
-import homeSvg from '../../../public/figmaLogo/Home.svg?url';
-import heartLove from '../../../public/figmaLogo/HeartLove.svg?url';
-import activeSvg from '../../../public/figmaLogo/ActiveHeart.svg?url';
-import pageNotFound from '../../../public/img/page-not-found.png';
+import { useEffect, useState } from "react";
+import "./Accessories.scss";
+import { SortForm } from "../../Functional/SortForm/SortForm";
+import { Product } from "../../Interface";
+import { Link } from "react-router-dom";
+import { useCart } from "../../Functional/CartContext/CartContext";
+import homeSvg from "../../../public/figmaLogo/Home.svg?url";
+import heartLove from "../../../public/figmaLogo/HeartLove.svg?url";
+import activeSvg from "../../../public/figmaLogo/ActiveHeart.svg?url";
+import pageNotFound from "../../../public/img/page-not-found.png";
 
 interface CartItem {
   id: string;
@@ -29,8 +29,8 @@ export const AccessoriesPage = () => {
   const [filteredAccessories, setFilteredAccessories] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [sortBy, setSortBy] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortBy, setSortBy] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(8);
   const [imageError, setImageError] = useState<{ [key: string]: boolean }>({});
@@ -49,8 +49,8 @@ export const AccessoriesPage = () => {
   useEffect(() => {
     setLoading(true);
 
-    fetch('api/products.json')
-      .then(response => {
+    fetch("api/products.json")
+      .then((response) => {
         if (!response.ok) {
           throw new Error(
             `Failed to fetch products.json: ${response.status} ${response.statusText}`,
@@ -61,36 +61,34 @@ export const AccessoriesPage = () => {
       })
       .then((data: Product[]) => {
         const accessoriesOnly = data.filter(
-          item => item.category === 'accessories',
+          (item) => item.category === "accessories",
         );
 
         const sortedByName = [...accessoriesOnly].sort((a, b) =>
-          a.name.localeCompare(b.name),
-        );
+          a.name.localeCompare(b.name));
 
         setAccessories(sortedByName);
         setInitialAccessories(sortedByName);
         setFilteredAccessories(sortedByName);
         setLoading(false);
       })
-      .catch(err => {
-        setError(err.message || 'Failed to load accessories');
+      .catch((err) => {
+        setError(err.message || "Failed to load accessories");
         setLoading(false);
       });
   }, []);
 
   useEffect(() => {
-    const baseList = sortBy === '' ? initialAccessories : accessories;
+    const baseList = sortBy === "" ? initialAccessories : accessories;
 
-    const filtered = baseList.filter(item =>
-      item.name.toLowerCase().includes(searchTerm.toLowerCase()),
-    );
+    const filtered = baseList.filter((item) =>
+      item.name.toLowerCase().includes(searchTerm.toLowerCase()));
 
     const sorted = [...filtered].sort((a, b) => {
-      if (sortBy === 'newest') return b.year - a.year;
-      if (sortBy === 'priceLow') return a.price - b.price;
-      if (sortBy === 'priceHigh') return b.price - a.price;
-      if (sortBy === 'alphabetically') return a.name.localeCompare(b.name);
+      if (sortBy === "newest") return b.year - a.year;
+      if (sortBy === "priceLow") return a.price - b.price;
+      if (sortBy === "priceHigh") return b.price - a.price;
+      if (sortBy === "alphabetically") return a.name.localeCompare(b.name);
 
       return 0;
     });
@@ -109,12 +107,12 @@ export const AccessoriesPage = () => {
       name: accessory.name,
       price: accessory.price,
       image: accessory.image,
-      color: accessory.color || 'default',
+      color: accessory.color || "default",
       capacity: accessory.capacity,
       quantity: 1,
     };
 
-    if (cart.some(item => item.id === accessory.itemId)) {
+    if (cart.some((item) => item.id === accessory.itemId)) {
       removeFromCart(accessory.itemId);
     } else {
       addToCart(cartItem);
@@ -122,7 +120,7 @@ export const AccessoriesPage = () => {
   };
 
   const handleImageError = (imageSrc: string) => {
-    setImageError(prev => ({ ...prev, [imageSrc]: true }));
+    setImageError((prev) => ({ ...prev, [imageSrc]: true }));
   };
 
   const getPageNumbers = () => {
@@ -132,8 +130,9 @@ export const AccessoriesPage = () => {
     const endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
 
     pages.push(1);
+
     if (startPage > 2) {
-      pages.push('...');
+      pages.push("...");
     }
 
     for (let i = startPage; i <= endPage; i++) {
@@ -143,7 +142,7 @@ export const AccessoriesPage = () => {
     }
 
     if (endPage < totalPages - 1) {
-      pages.push('...');
+      pages.push("...");
     }
 
     if (totalPages !== 1) {
@@ -179,7 +178,7 @@ export const AccessoriesPage = () => {
         <a href="#">
           <img src={homeSvg} alt="home_nav" />
         </a>
-        <p className="home--nav-top">{'>'}</p>
+        <p className="home--nav-top">{">"}</p>
         <p className="home--nav-top">Accessories</p>
       </div>
 
@@ -190,7 +189,7 @@ export const AccessoriesPage = () => {
           onSearchChange={setSearchTerm}
           sortBy={sortBy}
           onSortChange={setSortBy}
-          onItemsPerPageChange={value => {
+          onItemsPerPageChange={(value) => {
             setItemsPerPage(value);
             setCurrentPage(1);
           }}
@@ -201,7 +200,7 @@ export const AccessoriesPage = () => {
         {filteredAccessories.length === 0 ? (
           <p className="accessories__no-results">No accessories found.</p>
         ) : (
-          currentItems.map(accessory => (
+          currentItems.map((accessory) => (
             <div key={accessory.itemId} className="accessories__card">
               <Link to={`/products/${accessory.itemId}`}>
                 <img
@@ -229,20 +228,21 @@ export const AccessoriesPage = () => {
               </Link>
               <div className="accessories__card-actions">
                 <button
-                  className={`accessories__card-btn accessories__card-btn--add ${cart.some(item => item.id === accessory.itemId) ? 'added' : ''}`}
-                  onClick={e => {
+                  className={`accessories__card-btn accessories__card-btn--add ${cart.some((item) => item.id === accessory.itemId) ? "added" : ""}`}
+                  onClick={(e) => {
                     e.preventDefault();
                     handleCartToggle(accessory);
                   }}
                 >
-                  {cart.some(item => item.id === accessory.itemId)
-                    ? 'Added'
-                    : 'Add to cart'}
+                  {cart.some((item) => item.id === accessory.itemId)
+                    ? "Added"
+                    : "Add to cart"}
                 </button>
                 <button
-                  className={`accessories__card-btn accessories__card-btn--favorite ${favorites.includes(accessory.itemId || '') ? 'favorite--active' : ''}`}
-                  onClick={e => {
+                  className={`accessories__card-btn accessories__card-btn--favorite ${favorites.includes(accessory.itemId || "") ? "favorite--active" : ""}`}
+                  onClick={(e) => {
                     e.preventDefault();
+
                     if (accessory.itemId) {
                       toggleFavorite(accessory.itemId);
                     }
@@ -250,7 +250,7 @@ export const AccessoriesPage = () => {
                 >
                   <img
                     src={
-                      favorites.includes(accessory.itemId || '')
+                      favorites.includes(accessory.itemId || "")
                         ? activeSvg
                         : heartLove
                     }
@@ -267,30 +267,30 @@ export const AccessoriesPage = () => {
       {itemsPerPage !== 0 && (
         <div className="pagination">
           <button
-            onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
             disabled={currentPage === 1}
             className="pagination__button"
           >
-            {'<'}
+            {"<"}
           </button>
           {getPageNumbers().map((page, index) => (
             <button
               key={index}
-              className={`pagination__button ${currentPage === page ? 'active' : ''}`}
-              onClick={() => typeof page === 'number' && setCurrentPage(page)}
-              disabled={typeof page !== 'number'}
+              className={`pagination__button ${currentPage === page ? "active" : ""}`}
+              onClick={() => typeof page === "number" && setCurrentPage(page)}
+              disabled={typeof page !== "number"}
             >
               {page}
             </button>
           ))}
           <button
             onClick={() =>
-              setCurrentPage(prev => Math.min(prev + 1, totalPages))
+              setCurrentPage((prev) => Math.min(prev + 1, totalPages))
             }
             disabled={currentPage === totalPages}
             className="pagination__button"
           >
-            {'>'}
+            {">"}
           </button>
         </div>
       )}

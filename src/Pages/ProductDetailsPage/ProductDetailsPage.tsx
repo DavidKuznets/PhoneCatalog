@@ -1,21 +1,21 @@
 /* eslint-disable max-len */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/indent */
-import { useParams, useNavigate, useLocation } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import { Phone, Tablet, Accessories } from '../../Interface';
-import { useCart } from '../../Functional/CartContext/CartContext';
-import './ProductDetailsPage.scss';
-import { YourComponent } from './YourComponent';
-import 'swiper/css';
-import 'swiper/css/navigation';
-import { Link } from 'react-router-dom';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation } from 'swiper/modules';
-import pageNotFound from '../../../public/img/page-not-found.png';
-import heartLove from '../../../public/figmaLogo/HeartLove.svg?url';
-import activeSvg from '../../../public/figmaLogo/ActiveHeart.svg?url';
-import homeSvg from '../../../public/figmaLogo/Home.svg?url';
+import { useParams, useNavigate, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Phone, Tablet, Accessories } from "../../Interface";
+import { useCart } from "../../Functional/CartContext/CartContext";
+import "./ProductDetailsPage.scss";
+import { YourComponent } from "./YourComponent";
+import "swiper/css";
+import "swiper/css/navigation";
+import { Link } from "react-router-dom";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation } from "swiper/modules";
+import pageNotFound from "../../../public/img/page-not-found.png";
+import heartLove from "../../../public/figmaLogo/HeartLove.svg?url";
+import activeSvg from "../../../public/figmaLogo/ActiveHeart.svg?url";
+import homeSvg from "../../../public/figmaLogo/Home.svg?url";
 
 export const ProductDetailsPage = () => {
   const { productId } = useParams();
@@ -38,19 +38,19 @@ export const ProductDetailsPage = () => {
   const isPhoneOrTablet = (
     item: Phone | Tablet | Accessories,
   ): item is Phone | Tablet => {
-    return 'capacityAvailable' in item && !!item.capacityAvailable;
+    return "capacityAvailable" in item && !!item.capacityAvailable;
   };
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, [pathname]);
 
   useEffect(() => {
     const fetchProducts = async () => {
       const urls = [
-        'api/phones.json',
-        'api/tablets.json',
-        'api/accessories.json',
+        "api/phones.json",
+        "api/tablets.json",
+        "api/accessories.json",
       ];
       const allData: (Phone | Tablet | Accessories)[] = [];
 
@@ -69,26 +69,27 @@ export const ProductDetailsPage = () => {
 
         setAllProducts(allData);
 
-        const found = allData.find(item => item.id === productId);
+        const found = allData.find((item) => item.id === productId);
 
         if (found) {
           const params = new URLSearchParams(search);
           const urlColor =
-            params.get('color')?.replace('-', ' ') || found.color;
+            params.get("color")?.replace("-", " ") || found.color;
           const urlCapacity =
-            params.get('capacity') ||
+            params.get("capacity") ||
             (isPhoneOrTablet(found) ? found.capacityAvailable[0] : null);
 
           const newProduct =
             allData.find(
-              p =>
+              (p) =>
                 p.id === productId &&
                 p.color === urlColor &&
-                ('capacity' in p ? p.capacity === urlCapacity : true),
+                ("capacity" in p ? p.capacity === urlCapacity : true),
             ) || found;
 
           setProduct(newProduct);
           setSelectedColor(urlColor);
+
           setSelectedImage(
             newProduct.images?.[0] ? `${newProduct.images[0]}` : pageNotFound,
           );
@@ -96,9 +97,10 @@ export const ProductDetailsPage = () => {
 
           const newParams = new URLSearchParams();
 
-          newParams.set('color', urlColor.toLowerCase().replace(' ', '-'));
+          newParams.set("color", urlColor.toLowerCase().replace(" ", "-"));
+
           if (isPhoneOrTablet(newProduct) && urlCapacity) {
-            newParams.set('capacity', urlCapacity);
+            newParams.set("capacity", urlCapacity);
           }
 
           const newUrl = `${pathname}?${newParams.toString()}`;
@@ -121,7 +123,7 @@ export const ProductDetailsPage = () => {
     if (product && isPhoneOrTablet(product)) {
       const params = new URLSearchParams(search);
       const urlCapacity =
-        params.get('capacity') || product.capacityAvailable[0];
+        params.get("capacity") || product.capacityAvailable[0];
 
       if (
         !selectedCapacity ||
@@ -138,15 +140,16 @@ export const ProductDetailsPage = () => {
     }
 
     const newProduct = allProducts.find(
-      p =>
+      (p) =>
         p.namespaceId === product.namespaceId &&
         p.color === color &&
-        ('capacity' in p ? p.capacity === selectedCapacity : true),
+        ("capacity" in p ? p.capacity === selectedCapacity : true),
     );
 
     if (newProduct) {
       setProduct(newProduct);
       setSelectedColor(color);
+
       setSelectedImage(
         newProduct.images?.[0] ? `${newProduct.images[0]}` : pageNotFound,
       );
@@ -164,12 +167,13 @@ export const ProductDetailsPage = () => {
 
       const newParams = new URLSearchParams();
 
-      newParams.set('color', color.toLowerCase().replace(' ', '-'));
+      newParams.set("color", color.toLowerCase().replace(" ", "-"));
+
       if (isPhoneOrTablet(newProduct) && selectedCapacity) {
-        newParams.set('capacity', selectedCapacity);
+        newParams.set("capacity", selectedCapacity);
       }
 
-      const newUrl = `${pathname.split('?')[0]}?${newParams.toString()}`;
+      const newUrl = `${pathname.split("?")[0]}?${newParams.toString()}`;
 
       if (newUrl !== `${pathname}${search}`) {
         navigate(newUrl, { replace: true });
@@ -183,15 +187,16 @@ export const ProductDetailsPage = () => {
     }
 
     const newProduct = allProducts.find(
-      p =>
+      (p) =>
         p.namespaceId === product.namespaceId &&
         p.color === selectedColor &&
-        ('capacity' in p ? p.capacity === capacity : true),
+        ("capacity" in p ? p.capacity === capacity : true),
     );
 
     if (newProduct) {
       setSelectedCapacity(capacity);
       setProduct(newProduct);
+
       setSelectedImage(
         newProduct.images?.[0] ? `${newProduct.images[0]}` : pageNotFound,
       );
@@ -199,14 +204,15 @@ export const ProductDetailsPage = () => {
       const newParams = new URLSearchParams();
 
       newParams.set(
-        'color',
-        (selectedColor || product.color).toLowerCase().replace(' ', '-'),
+        "color",
+        (selectedColor || product.color).toLowerCase().replace(" ", "-"),
       );
+
       if (isPhoneOrTablet(newProduct)) {
-        newParams.set('capacity', capacity);
+        newParams.set("capacity", capacity);
       }
 
-      const newUrl = `${pathname.split('?')[0]}?${newParams.toString()}`;
+      const newUrl = `${pathname.split("?")[0]}?${newParams.toString()}`;
 
       navigate(newUrl, { replace: true });
     }
@@ -227,7 +233,7 @@ export const ProductDetailsPage = () => {
       quantity: 1,
     };
 
-    const isInCart = cart.some(item => item.id === product.id);
+    const isInCart = cart.some((item) => item.id === product.id);
 
     if (isInCart) {
       removeFromCart(product.id);
@@ -245,11 +251,11 @@ export const ProductDetailsPage = () => {
       price: relatedItem.priceDiscount,
       image: `${relatedItem.images[0]}`,
       color: relatedItem.color,
-      capacity: 'capacity' in relatedItem ? relatedItem.capacity : undefined,
+      capacity: "capacity" in relatedItem ? relatedItem.capacity : undefined,
       quantity: 1,
     };
 
-    const isInCart = cart.some(item => item.id === relatedItem.id);
+    const isInCart = cart.some((item) => item.id === relatedItem.id);
 
     if (isInCart) {
       removeFromCart(relatedItem.id);
@@ -267,29 +273,29 @@ export const ProductDetailsPage = () => {
   };
 
   const handleImageError = (imageSrc: string) => {
-    setImageError(prev => ({ ...prev, [imageSrc]: true }));
+    setImageError((prev) => ({ ...prev, [imageSrc]: true }));
   };
 
-  const isInCart = cart.some(item => item.id === product?.id);
+  const isInCarts = cart.some((item) => item.id === product?.id);
 
   const getCategoryLink = () => {
     if (!product) {
-      return '#/phones';
+      return "#/phones";
     }
 
-    if (product.category === 'phones') {
-      return '#/phones';
+    if (product.category === "phones") {
+      return "#/phones";
     }
 
-    if (product.category === 'tablets') {
-      return '#/tablets';
+    if (product.category === "tablets") {
+      return "#/tablets";
     }
 
-    return '#/accessories';
+    return "#/accessories";
   };
 
   const relatedProducts = allProducts.filter(
-    item => item.category === product?.category && item.id !== product?.id,
+    (item) => item.category === product?.category && item.id !== product?.id,
   );
 
   if (!product) {
@@ -302,16 +308,16 @@ export const ProductDetailsPage = () => {
         <a href="#">
           <img src={homeSvg} alt="home_nav" />
         </a>
-        <p className="home--nav-top">{'>'}</p>
+        <p className="home--nav-top">{">"}</p>
         <a href={getCategoryLink()}>
           <YourComponent product={product} />
         </a>
-        <p className="home--nav-top">{'>'}</p>
+        <p className="home--nav-top">{">"}</p>
         <span className="product-details__id">{product.id}</span>
       </div>
       <div className="product-details--back">
         <a href={getCategoryLink()}>
-          <p className="home--nav-top">{'<'} Back</p>
+          <p className="home--nav-top">{"<"} Back</p>
         </a>
       </div>
 
@@ -322,13 +328,13 @@ export const ProductDetailsPage = () => {
           <div className="gallery__main-image">
             <img
               src={
-                imageError[selectedImage || '']
+                imageError[selectedImage || ""]
                   ? pageNotFound
                   : selectedImage || pageNotFound
               }
-              alt={product.name || 'No image available'}
+              alt={product.name || "No image available"}
               loading="lazy"
-              onError={() => handleImageError(selectedImage || '')}
+              onError={() => handleImageError(selectedImage || "")}
             />
           </div>
           <div className="gallery__thumbnails">
@@ -337,7 +343,7 @@ export const ProductDetailsPage = () => {
                 key={index}
                 src={imageError[`${image}`] ? pageNotFound : `${image}`}
                 alt={`${product.name} thumbnail ${index + 1}`}
-                className={`thumbnail ${selectedImage === `${image}` ? 'thumbnail--active' : ''}`}
+                className={`thumbnail ${selectedImage === `${image}` ? "thumbnail--active" : ""}`}
                 onClick={() => setSelectedImage(`${image}`)}
                 loading="lazy"
                 onError={() => handleImageError(`${image}`)}
@@ -350,10 +356,10 @@ export const ProductDetailsPage = () => {
           <div className="product-details__colors">
             <p className="product-details__label">Available colors</p>
             <div className="color-options">
-              {product.colorsAvailable?.map(color => (
+              {product.colorsAvailable?.map((color) => (
                 <button
                   key={color}
-                  className={`color-option color-option--${color.toLowerCase().replace(' ', '-')}`}
+                  className={`color-option color-option--${color.toLowerCase().replace(" ", "-")}`}
                   onClick={() => handleColorChange(color)}
                   aria-label={`Select ${color} color`}
                   aria-selected={selectedColor === color}
@@ -366,10 +372,10 @@ export const ProductDetailsPage = () => {
             <div className="product-details__capacities">
               <p className="product-details__label">Select capacity</p>
               <div className="capacity-options">
-                {product.capacityAvailable.map(option => (
+                {product.capacityAvailable.map((option) => (
                   <button
                     key={option}
-                    className={`capacity-option ${product.capacity === option.trim() ? 'capacity-option--active' : ''}`}
+                    className={`capacity-option ${product.capacity === option.trim() ? "capacity-option--active" : ""}`}
                     onClick={() => handleMemoryChange(option)}
                     aria-label={`Select ${option} capacity`}
                     aria-selected={selectedCapacity?.trim() === option.trim()}
@@ -392,16 +398,16 @@ export const ProductDetailsPage = () => {
 
           <div className="product-details__actions">
             <button
-              className={`product-details__add-to-cart ${isInCart ? 'added' : ''}`}
+              className={`product-details__add-to-cart ${isInCarts ? "added" : ""}`}
               onClick={handleCartToggle}
             >
-              {isInCart ? 'Added' : 'Add to cart'}
+              {isInCarts ? "Added" : "Add to cart"}
             </button>
             <button
-              className={`product-details__favorite ${favorites.includes(product.id) ? 'favorite--active' : ''}`}
+              className={`product-details__favorite ${favorites.includes(product.id) ? "favorite--active" : ""}`}
               onClick={handleToggleFavorite}
               aria-label={
-                favorites.includes(product.id) ? 'Added' : 'Add to favorites'
+                favorites.includes(product.id) ? "Added" : "Add to favorites"
               }
             >
               <img
@@ -455,15 +461,15 @@ export const ProductDetailsPage = () => {
 
       <div className="product-details__tech-specs">
         <h2>Tech specs</h2>
-        {'screen' in product && <p>Screen: {product.screen}</p>}
-        {'resolution' in product && <p>Resolution: {product.resolution}</p>}
-        {'processor' in product && <p>Processor: {product.processor}</p>}
-        {'ram' in product && <p>RAM: {product.ram}</p>}
-        {'capacity' in product && <p>Capacity: {product.capacity}</p>}
-        {'camera' in product && <p>Camera: {product.camera}</p>}
-        {'zoom' in product && <p>Zoom: {product.zoom}</p>}
-        {'cell' in product && product.cell && (
-          <p>Cell: {product.cell.join(', ')}</p>
+        {"screen" in product && <p>Screen: {product.screen}</p>}
+        {"resolution" in product && <p>Resolution: {product.resolution}</p>}
+        {"processor" in product && <p>Processor: {product.processor}</p>}
+        {"ram" in product && <p>RAM: {product.ram}</p>}
+        {"capacity" in product && <p>Capacity: {product.capacity}</p>}
+        {"camera" in product && <p>Camera: {product.camera}</p>}
+        {"zoom" in product && <p>Zoom: {product.zoom}</p>}
+        {"cell" in product && product.cell && (
+          <p>Cell: {product.cell.join(", ")}</p>
         )}
       </div>
 
@@ -471,10 +477,10 @@ export const ProductDetailsPage = () => {
         <h2>You may also like</h2>
         <div className="related-products__nav">
           <button className="brand__nav-btn brand__nav-btn--prev swiper-button-p">
-            {'<'}
+            {"<"}
           </button>
           <button className="brand__nav-btn brand__nav-btn--next swiper-button-n">
-            {'>'}
+            {">"}
           </button>
         </div>
         <div className="related-products__grid">
@@ -485,8 +491,8 @@ export const ProductDetailsPage = () => {
               modules={[Navigation]}
               spaceBetween={16}
               navigation={{
-                nextEl: '.swiper-button-n',
-                prevEl: '.swiper-button-p',
+                nextEl: ".swiper-button-n",
+                prevEl: ".swiper-button-p",
               }}
               breakpoints={{
                 320: { slidesPerView: 2, spaceBetween: 8 },
@@ -496,7 +502,7 @@ export const ProductDetailsPage = () => {
               }}
               className="brand__swiper"
             >
-              {relatedProducts.slice(10, 18).map(relatedItem => (
+              {relatedProducts.slice(10, 18).map((relatedItem) => (
                 <SwiperSlide key={relatedItem.id} className="brand__card">
                   <Link to={`/products/${relatedItem.id}`}>
                     <img
@@ -523,7 +529,7 @@ export const ProductDetailsPage = () => {
                       </span>
                     </div>
                     <div className="related-products__card-specs">
-                      {'screen' in relatedItem && (
+                      {"screen" in relatedItem && (
                         <p>
                           <span className="related-products__card-spec-label">
                             Screen:
@@ -533,7 +539,7 @@ export const ProductDetailsPage = () => {
                           </span>
                         </p>
                       )}
-                      {'ram' in relatedItem && (
+                      {"ram" in relatedItem && (
                         <p>
                           <span className="related-products__card-spec-label">
                             RAM:
@@ -543,7 +549,7 @@ export const ProductDetailsPage = () => {
                           </span>
                         </p>
                       )}
-                      {'capacity' in relatedItem && (
+                      {"capacity" in relatedItem && (
                         <p>
                           <span className="related-products__card-spec-label">
                             Capacity:
@@ -558,26 +564,26 @@ export const ProductDetailsPage = () => {
                   <div className="related-products__card-actions">
                     <button
                       className={`related-products__card-btn related-products__card-btn--add ${
-                        cart.some(cartItem => cartItem.id === relatedItem.id)
-                          ? 'added'
-                          : ''
+                        cart.some((cartItem) => cartItem.id === relatedItem.id)
+                          ? "added"
+                          : ""
                       }`}
-                      onClick={e => {
+                      onClick={(e) => {
                         e.stopPropagation();
                         handleRelatedCartToggle(relatedItem);
                       }}
                     >
-                      {cart.some(cartItem => cartItem.id === relatedItem.id)
-                        ? 'Added'
-                        : 'Add to cart'}
+                      {cart.some((cartItem) => cartItem.id === relatedItem.id)
+                        ? "Added"
+                        : "Add to cart"}
                     </button>
                     <button
                       className={`related-products__card-btn related-products__card-btn--favorite ${
                         favorites.includes(relatedItem.id)
-                          ? 'favorite--active'
-                          : ''
+                          ? "favorite--active"
+                          : ""
                       }`}
-                      onClick={e => {
+                      onClick={(e) => {
                         e.stopPropagation();
                         toggleFavorite(relatedItem.id);
                       }}
