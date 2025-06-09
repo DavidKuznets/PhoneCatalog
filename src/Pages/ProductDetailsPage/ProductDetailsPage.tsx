@@ -1,7 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable indent */
 /* eslint-disable max-len */
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable @typescript-eslint/indent */
-import { useParams, useNavigate, useLocation } from "react-router-dom";
+import { useParams, useNavigate, useLocation, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Phone, Tablet, Accessories } from "../../Interface";
 import { useCart } from "../../Functional/CartContext/CartContext";
@@ -9,7 +9,6 @@ import "./ProductDetailsPage.scss";
 import { YourComponent } from "./YourComponent";
 import "swiper/css";
 import "swiper/css/navigation";
-import { Link } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import pageNotFound from "../../../public/img/page-not-found.png";
@@ -495,7 +494,7 @@ export const ProductDetailsPage = () => {
                 prevEl: ".swiper-button-p",
               }}
               breakpoints={{
-                320: { slidesPerView: 2, spaceBetween: 8 },
+                320: { slidesPerView: 1, spaceBetween: 8 },
                 480: { slidesPerView: 3, spaceBetween: 12 },
                 768: { slidesPerView: 4, spaceBetween: 16 },
                 1024: { slidesPerView: 4, spaceBetween: 16 },
